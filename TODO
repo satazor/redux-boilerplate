@@ -10,3 +10,4 @@
 - ?sourceMap does not work very well in css-loader, investigate
 - setup auto commit hook to run lint
 - add stylelint
+- take a look at possible react-boilerplate stuff to be used here

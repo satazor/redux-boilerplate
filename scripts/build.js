@@ -19,19 +19,19 @@ const projectDir = path.join(__dirname + '/..');
 
 const argv = yargs
 .strict()
-.wrap(Math.min(100, yargs.terminalWidth()))
+.wrap(Math.min(120, yargs.terminalWidth()))
 .usage('Usage: ./$0 [options]')
 .option('env', {
     alias: 'e',
     type: 'string',
     default: 'prod',
-    describe: 'The build environment',
+    describe: 'The environment',
 })
 .option('minify', {
     alias: 'm',
     type: 'boolean',
     default: true,
-    describe: 'Whether to minify or not the assets and the index.html file',
+    describe: 'Whether to minify or assets (including index.html)',
 })
 .option('help', {
     alias: 'h',

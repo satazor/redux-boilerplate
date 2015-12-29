@@ -14,7 +14,7 @@ const projectDir = path.join(__dirname + '/..');
 
 const argv = yargs
 .strict()
-.wrap(Math.min(100, yargs.terminalWidth()))
+.wrap(Math.min(120, yargs.terminalWidth()))
 .usage('Usage: ./$0 [options]')
 .option('help', {
     alias: 'h',

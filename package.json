@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "./scripts/lint.js",
     "build": "./scripts/build.js",
-    "start": "./scripts/server.js"
+    "serve": "./scripts/serve.js"
   },
   "repository": {
     "type": "git",

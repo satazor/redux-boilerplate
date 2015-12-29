@@ -17,13 +17,13 @@ const parameters = require('../config/parameters.json');
 
 const argv = yargs
 .strict()
-.wrap(Math.min(100, yargs.terminalWidth()))
+.wrap(Math.min(120, yargs.terminalWidth()))
 .usage('Usage: ./$0 [options]')
 .option('env', {
     alias: 'e',
     type: 'string',
     default: 'dev',
-    describe: 'The build environment',
+    describe: 'The environment',
 })
 .option('address', {
     alias: 'a',
@@ -40,6 +40,9 @@ const argv = yargs
     type: 'boolean',
     describe: 'Show the help',
 })
+.example('$0', 'Serves the application for the dev environment')
+.example('$0 --env prod', 'Serves the application for the prod environment')
+.example('$0 --env staging --port 8081 --address 0.0.0.0', 'Serves the application for the staging environment on all network interfaces in port 8081')
 .argv;
 
 if (argv.help) {
