@@ -1,0 +1,47 @@
+/*
+Typography defaults
+*/
+body {
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.428571429;
+    color: #4e4f4f;
+
+    /* Break long words by default */
+    word-wrap: break-word;  /* Deprecated in favor of "overflow-wrap" */
+    overflow-wrap: break-word;
+
+    /* Disable text selection by default to behave more like a native app */
+    user-select: none;
+
+    /* Font smoothing tweaks for MacOSx */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+    background: #01957a;
+    color: #ffffff;
+}
+
+
+/*
+Links
+*/
+a,
+a:visited,
+a:active {
+    color: #01957A;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+a:hover,
+a.hover,
+a:focus {
+    color: #00BD9B;
+}
+
+a:focus {
+    outline: 0;
+}

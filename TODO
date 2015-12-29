@@ -1,0 +1,12 @@
+- test deep nested routes
+- update .eslintrc.json to use @satazor/eslint-config
+   - only after my fix got released https://github.com/eslint/eslint/issues/4800
+   - ask for cherry-pick on https://github.com/eslint/eslint/issues/4229#issuecomment-167324323
+- add validator.validateFaultyParameters
+- add hot-reloading
+- add redux stuff & middleware to handle async
+- complete README
+- Look into postcss
+- ?sourceMap does not work very well in css-loader, investigate
+- setup auto commit hook to run lint
+- add stylelint
