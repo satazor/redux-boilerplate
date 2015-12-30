@@ -1,3 +1,5 @@
-/node_modules
-/npm-debug.*
+node_modules
+npm-debug.*
+/config/parameters.json
 /web/index.html
+/web/build

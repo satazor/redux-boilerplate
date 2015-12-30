@@ -7,13 +7,24 @@ let nrSteps = 0;
 function fail(err, extraMsg) {
     process.stderr.write('\n');
     process.stderr.write(chalk.underline.bold.red('ERROR') + ':\n');
-    process.stderr.write(err.stack + '\n');
+    process.stderr.write(err.message + '\n');
 
     if (extraMsg) {
         process.stderr.write('\n');
-        process.stderr.write(chalk.underline.bold.white('EXTRA') + ':\n');
         process.stderr.write(extraMsg + '\n');
     }
+
+    process.exit(1);
+}
+
+function fatal(err) {
+    process.stderr.write('\n');
+    process.stderr.write(chalk.underline.bold.red('ERROR') + ':\n');
+    process.stderr.write(err.message + '\n');
+
+    process.stderr.write('\n');
+    process.stderr.write(chalk.underline.bold.white('STACK') + ':\n');
+    process.stderr.write(err.stack + '\n');
 
     process.exit(1);
 }
@@ -23,8 +34,8 @@ function step(msg) {
     process.stdout.write(chalk.cyan(nrSteps + '.') + ' ' + msg + '\n');
 }
 
-process.on('uncaughtException', fail);
-process.on('unhandledRejection', fail);
+process.on('uncaughtException', fatal);
+process.on('unhandledRejection', fatal);
 
 
 module.exports = {

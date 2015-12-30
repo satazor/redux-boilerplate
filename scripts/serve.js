@@ -42,7 +42,8 @@ const argv = yargs
 })
 .example('$0', 'Serves the application for the dev environment')
 .example('$0 --env prod', 'Serves the application for the prod environment')
-.example('$0 --env staging --port 8081 --address 0.0.0.0', 'Serves the application for the staging environment on all network interfaces in port 8081')
+.example('$0 --env staging --port 8081 --address 0.0.0.0', 'Serves the application for the staging \
+environment on all network interfaces in port 8081')
 .argv;
 
 if (argv.help) {
@@ -73,7 +74,7 @@ function runServer() {
 
     server.listen(argv.port, argv.address, (err) => {
         if (err) {
-            return reporter.fail(err);
+            return reporter.fatal(err);
         }
 
         process.stdout.write('Listening at http://' + argv.address + ':' + argv.port + '\n');
@@ -87,6 +88,10 @@ function runServer() {
 // Step - Validate environment
 reporter.step('Validating "' + argv.env + '" environment');
 validator.validateEnvironment(argv.env);
+
+// Step - Validate parameters
+reporter.step('Validating config/parameters.json');
+validator.validateParameters(parameters);
 
 // Step - Prepare (ensure build or clean build & setup if dev)
 reporter.step('Prepare web directory');

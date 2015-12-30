@@ -96,6 +96,10 @@ reporter.step('Validating "' + argv.env + '" environment');
 argv.env === 'dev' && reporter.fail(new Error('The ' + argv.env + ' environment can\'t be built'));
 validator.validateEnvironment(argv.env);
 
+// Step - Validate parameters
+reporter.step('Validating config/parameters.json');
+validator.validateParameters(parameters);
+
 // Step - Remove previous build folder
 reporter.step('Remove previous build');
 web.cleanBuild();
