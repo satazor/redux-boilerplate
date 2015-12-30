@@ -97,7 +97,7 @@ function buildConfig(options) {
             stats: {
                 colors: true,
             },
-            // API proxies to prevent CORS issues while developing
+            // API proxies to circumvent CORS issues while developing
             // See available options in https://github.com/nodejitsu/node-http-proxy
             proxy: {
                 '/api/*': {

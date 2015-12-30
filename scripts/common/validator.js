@@ -30,21 +30,24 @@ function validateParameters(parameters) {
         return;
     }
 
-    const extraErrorMsg = diffParts
-    .map((part) => {
-        let color;
+    let extraErrorMsg = '';
 
-        if (part.added) {
-            color = 'green';
-        } else if (part.removed) {
-            color = 'red';
-        } else {
-            color = 'dim';
-        }
+    diffParts.forEach((part) => {
+        part.value
+        .split('\n')
+        .filter((line) => !!line)
+        .forEach((line) => {
+            if (part.added) {
+                extraErrorMsg += chalk.green('+  ' + line) + '\n';
+            } else if (part.removed) {
+                extraErrorMsg += chalk.red('-  ' + line) + '\n';
+            } else {
+                extraErrorMsg += chalk.dim('   ' + line) + '\n';
+            }
+        });
+    });
 
-        return chalk[color](part.value);
-    })
-    .join('') + '\n\nPlease reconciliate the changes according to the diff above.';
+    extraErrorMsg += '\n\nPlease reconciliate the changes according to the diff above.';
 
     reporter.fail(new Error('config/parameters.json.dist was modified recently and \
 contains differences compared to config/parameters.json'), extraErrorMsg);
