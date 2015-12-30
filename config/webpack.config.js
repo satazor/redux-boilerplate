@@ -87,6 +87,7 @@ function buildConfig(options) {
                 },
             }),
         ].filter((val) => !!val),
+        // Dev server configuration
         devServer: {
             publicPath: parameters.publicPath,
             contentBase: projectDir + '/web/',
@@ -95,6 +96,15 @@ function buildConfig(options) {
             historyApiFallback: true,
             stats: {
                 colors: true,
+            },
+            // API proxies to prevent CORS issues while developing
+            // See available options in https://github.com/nodejitsu/node-http-proxy
+            proxy: {
+                '/api/*': {
+                    target: 'https://mysite.com/api/',
+                    secure: false,
+                    prependPath: false,
+                },
             },
         },
     };
