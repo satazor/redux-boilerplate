@@ -2,11 +2,11 @@
 
 'use strict';
 
-const path = require('path');
 const yargs = require('yargs');
 const reporter = require('./common/reporter');
 const eslint = require('eslint');
-const projectDir = path.join(__dirname + '/..');
+
+const projectDir = __dirname + '/..';
 
 // ---------------------------------------------------------
 // CLI definition

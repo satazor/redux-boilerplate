@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "description": "A boilerplate for starting a large redux based app.",
   "scripts": {
-    "lint": "./scripts/lint.js",
-    "build": "./scripts/build.js",
-    "serve": "./scripts/serve.js"
+    "init": "./scripts/init",
+    "lint": "./scripts/lint",
+    "build": "./scripts/build",
+    "serve": "./scripts/serve",
+    "pre-commit": "./scripts/lint"
   },
   "repository": {
     "type": "git",
@@ -17,7 +19,7 @@
     "react"
   ],
   "author": "André Cruz <amdfcruz@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/satazor/redux-boilerplate/issues"
   },
@@ -35,6 +37,7 @@
     "redux-simple-router": "^1.0.1"
   },
   "devDependencies": {
+    "@satazor/eslint-config": "^1.0.3",
     "autoprefixer": "^6.2.2",
     "babel-core": "^6.3.15",
     "babel-eslint": "^4.1.6",

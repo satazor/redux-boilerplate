@@ -16,6 +16,8 @@ function validateEnvironment(env) {
             reporter.fail(new Error('Environment ' + env + ' does not exist'),
                 'You must create its configuration file at config/config-' + env + '.js');
         }
+
+        reporter.fatal(err);
     }
 }
 

@@ -11,7 +11,7 @@ const web = require('./common/web');
 const webpackConfig = require('../config/webpack.config.js');
 const parameters = require('../config/parameters.json');
 
-const projectDir = path.join(__dirname + '/..');
+const projectDir = __dirname + '/..';
 
 // ---------------------------------------------------------
 // CLI definition
@@ -112,4 +112,4 @@ runWebpack()
 .then((data) => {
     reporter.step('Generate index HTML page');
     web.generateIndex(data, argv.minify);
-}, reporter.fail);
+});

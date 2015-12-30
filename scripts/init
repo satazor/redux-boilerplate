@@ -1,0 +1,106 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const fs = require('fs');
+const cp = require('child_process');
+const rimraf = require('rimraf');
+const yargs = require('yargs');
+const reporter = require('./common/reporter');
+
+const projectDir = __dirname + '/..';
+
+// ---------------------------------------------------------
+// CLI definition
+// ---------------------------------------------------------
+
+const argv = yargs
+.strict()
+.wrap(Math.min(120, yargs.terminalWidth()))
+.usage('Usage: ./$0 [options]')
+.option('force', {
+    alias: 'f',
+    type: 'boolean',
+    describe: 'Forces the re-initialization of the project',
+})
+.option('help', {
+    alias: 'h',
+    type: 'boolean',
+    describe: 'Show the help',
+})
+.argv;
+
+if (argv.help) {
+    yargs.showHelp('log');
+    process.exit(0);
+}
+
+// ---------------------------------------------------------
+// Functions
+// ---------------------------------------------------------
+
+function checkAlreadyInitialized() {
+    let inited = true;
+
+    try {
+        fs.statSync(projectDir + '/config/parameters.json');
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            inited = false;
+        } else {
+            reporter.fatal(err);
+        }
+    }
+
+    if (inited && !argv.force) {
+        reporter.fail(new Error('Project is already initialized'), 'Run with --force to re-initialize the project');
+    }
+}
+
+function copyParameters() {
+    const contents = fs.readFileSync(projectDir + '/config/parameters.json.dist');
+
+    fs.writeFileSync(projectDir + '/config/parameters.json', contents);
+}
+
+function installPreCommitHook() {
+    const contents = '#!/bin/sh\n\nnpm run pre-commit';
+
+    fs.writeFileSync(projectDir + '/.git/hooks/pre-commit', contents);
+    fs.chmodSync(projectDir + '/.git/hooks/pre-commit', 0o755);
+}
+
+function installDependencies() {
+    process.stdout.write('Removing node_modules..\n');
+    rimraf.sync(projectDir + '/node_modules');
+
+    process.stdout.write('Running npm install..\n');
+    try {
+        cp.execSync('npm install', {
+            cwd: projectDir,
+            stdio: 'inherit',
+        });
+    } catch (err) {
+        return reporter.fatal(err);
+    }
+}
+
+// ---------------------------------------------------------
+// Steps
+// ---------------------------------------------------------
+
+checkAlreadyInitialized();
+
+// Step - Copy parameters.json.dist
+reporter.step('Copy parameters.json.dist to parameters.json');
+copyParameters();
+
+// Step - Install pre-commit hook
+reporter.step('Install pre-commit hook');
+installPreCommitHook();
+
+// Replace redux-boilerplate with app name
+
+// Step - Install dependencies
+reporter.step('Installing dependencies');
+installDependencies();
