@@ -2,6 +2,11 @@
 @import "./base/typography.css";
 
 #root {
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     height: 100%;
 }
 
@@ -22,16 +27,16 @@
 #pages {
     position: absolute;
     top: 0;
-    left: 200px;
     right: 0;
     bottom: 0;
+    left: 200px;
 }
 
 #pages .page-transition {
     top: 0;
+    right: 0;
     bottom: 0;
     left: 0;
-    right: 0;
 }
 
 #pages .page {

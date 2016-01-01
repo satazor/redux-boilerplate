@@ -19,6 +19,7 @@ const argv = yargs
 .strict()
 .wrap(Math.min(120, yargs.terminalWidth()))
 .usage('Usage: ./$0 [options]')
+.demand(0, 0)
 .option('env', {
     alias: 'e',
     type: 'string',
