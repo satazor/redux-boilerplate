@@ -2,18 +2,37 @@
 
 const chalk = require('chalk');
 
-let nrSteps = 0;
-
 function renderLabel(label, color) {
-    let str = '\n' + chalk.inverse[color](' ' + label + ' ') + '\n';
+    let str;
 
-    for (let x = 0; x < 8; x += 1) {
-        str += chalk[color]('\u2594\u2594\u2594\u2594\u2594\u2594\u2594\u2594\u2594\u2594');
-    }
-
-    str += '\n';
+    str = '\n';
+    str += chalk.inverse[color](' ' + label + ' ') + '\n';
+    str += chalk[color]('\u2594'.repeat(80)) + '\n';
 
     return str;
+}
+
+const steps = {
+    count: 0,
+    running: false,
+};
+
+function step(msg) {
+    endStep();
+
+    steps.count += 1;
+    steps.running = true;
+
+    process.stdout.write(renderLabel(steps.count + '. ' + msg, 'white'));
+}
+
+function endStep(msg) {
+    if (!steps.running) {
+        return;
+    }
+
+    steps.running = false;
+    process.stdout.write(chalk.green('\u2713 ') + (msg || 'Ok') + '\n');
 }
 
 function fail(err, extraMsg) {
@@ -39,15 +58,17 @@ function fatal(err) {
     process.exit(1);
 }
 
-function step(msg) {
-    nrSteps += 1;
-    process.stdout.write(renderLabel(nrSteps + '. ' + msg, 'white'));
-}
 
+// Attach process hooks
 process.on('uncaughtException', fatal);
 process.on('unhandledRejection', fatal);
+process.on('beforeExit', (code) => {
+    !code && endStep();
+});
 
 module.exports = {
     step,
+    endStep,
     fail,
+    fatal,
 };

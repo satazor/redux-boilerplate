@@ -3,7 +3,6 @@
 'use strict';
 
 const yargs = require('yargs');
-const chalk = require('chalk');
 const eslint = require('eslint');
 const stylelint = require('stylelint');
 const reporter = require('./common/reporter');
@@ -54,11 +53,6 @@ function runEslint(files) {
 
     if (report.errorCount) {
         reporter.fail(new Error('eslint reported ' + report.errorCount + ' error(s)'));
-    } else if (report.warningCount) {
-        process.stdout.write('Linting succeeded but with \
-' + chalk.yellow(report.warningCount + ' warning(s)') + '\n');
-    } else {
-        process.stdout.write('Linting succeeded\n');
     }
 }
 
@@ -74,10 +68,6 @@ function runStylelint(files) {
 
         if (result.errored) {
             reporter.fail(new Error('stylelint result contains errors'));
-        } else if (output) {
-            process.stdout.write('Linting succeeded but with ' + chalk.yellow('warning(s)') + '\n');
-        } else {
-            process.stdout.write('Linting succeeded\n');
         }
     });
 }
