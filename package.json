@@ -28,7 +28,7 @@
     "@satazor/stylelint-config": "^1.0.0",
     "diff-json-structure": "^1.0.0",
     "history": "^1.17.0",
-    "lodash": "^3.10.1",
+    "lodash": "^4.0.0",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-motion": "^0.3.1",
