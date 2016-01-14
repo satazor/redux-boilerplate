@@ -26,7 +26,7 @@
   "homepage": "https://github.com/satazor/redux-boilerplate",
   "dependencies": {
     "@satazor/stylelint-config": "^1.0.0",
-    "diff-json-structure": "^1.0.0",
+    "diff-json-structure": "^1.0.7",
     "history": "^1.17.0",
     "lodash": "^3.10.1",
     "react": "^0.14.3",
