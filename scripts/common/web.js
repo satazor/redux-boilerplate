@@ -3,7 +3,7 @@
 const fs = require('fs');
 const rimraf = require('rimraf');
 
-const template = require('lodash/string/template');
+const template = require('lodash/template');
 const minifyHtml = require('html-minifier').minify;
 
 const projectDir = __dirname + '/../..';

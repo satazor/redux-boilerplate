@@ -5,7 +5,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const yargs = require('yargs');
-const reporter = require('./common/reporter');
+const planify = require('planify');
+const errcode = require('err-code');
 const validator = require('./common/validator');
 const web = require('./common/web');
 const webpackConfig = require('../config/webpack.config.js');
@@ -34,6 +35,11 @@ const argv = yargs
     default: true,
     describe: 'Whether to minify or assets (including index.html)',
 })
+.option('reporter', {
+    alias: ['r', 'R'],
+    type: 'string',
+    describe: 'Any of the planify\'s reporters',
+})
 .option('help', {
     alias: 'h',
     type: 'boolean',
@@ -53,15 +59,15 @@ if (argv.help) {
 // ---------------------------------------------------------
 
 function runWebpack() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         const config = webpackConfig({ env: argv.env, minify: argv.minify });
-        const extraErrorMsg = 'You can replicate the issue by running \
+        const errDetail = 'You can replicate the issue by running \
 ' + path.relative(process.cwd(), projectDir + '/node_modules/.bin/webpack') + ' --config \
 ' + path.relative(process.cwd(), projectDir + '/config/webpack.config.js') + ' --env ' + argv.env;
 
         webpack(config, (err, stats) => {
             if (err) {
-                return reporter.fail(err, extraErrorMsg);
+                return reject(errcode(err, { detail: errDetail }));
             }
 
             const options = {
@@ -74,7 +80,7 @@ function runWebpack() {
             const string = stats.toString(Object.assign({ colors: true }, options)).trim();
 
             if (json.errors.length) {
-                return reporter.fail(new Error('Webpack build failed'), string + '\n\n' + extraErrorMsg);
+                return reject(errcode('Webpack build failed', { detail: string + '\n\n' + errDetail }));
             }
 
             process.stdout.write(string + '\n\n');
@@ -92,25 +98,21 @@ function runWebpack() {
 // Steps
 // ---------------------------------------------------------
 
-// Step - Validate environment
-reporter.step('Validating "' + argv.env + '" environment');
-argv.env === 'dev' && reporter.fail(new Error('The ' + argv.env + ' environment can\'t be built'));
-validator.validateEnvironment(argv.env);
+planify({ exit: true, reporter: argv.reporter })
+// Validate build environment
+.step('Validating "' + argv.env + '" environment', () => {
+    if (argv.env === 'dev') {
+        throw new Error('The ' + argv.env + ' environment can\'t be built');
+    }
 
-// Step - Validate parameters
-reporter.step('Validating config/parameters.json');
-validator.validateParameters(parameters);
-
-// Step - Remove previous build folder
-reporter.step('Remove previous build');
-web.cleanBuild();
-
-// Step - Run webpack
-reporter.step('Bundle with webpack');
-runWebpack()
-
-// Step - Generate the index HTML file
-.then((data) => {
-    reporter.step('Generate index HTML page');
-    web.generateIndex(data, argv.minify);
-});
+    return validator.validateEnvironment(argv.env);
+})
+// Validate if parameters.json are ok and up to date
+.step('Validating config/parameters.json', () => validator.validateParameters(parameters))
+.step('Remove previous build', () => web.cleanBuild())
+.step('Bundle with webpack', { slow: 10000 }, (data) => {
+    return runWebpack()
+    .then((result) => { data.webpack = result; });
+})
+.step('Generate index HTML page', (data) => web.generateIndex(data.webpack, argv.minify))
+.run();

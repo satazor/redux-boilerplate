@@ -4,8 +4,8 @@
 
 const yargs = require('yargs');
 const webpack = require('webpack');
+const planify = require('planify');
 const WebpackDevServer = require('webpack-dev-server');
-const reporter = require('./common/reporter');
 const validator = require('./common/validator');
 const web = require('./common/web');
 const webpackConfig = require('../config/webpack.config.js');
@@ -35,6 +35,11 @@ const argv = yargs
     alias: 'p',
     type: 'number',
     default: 8080,
+})
+.option('reporter', {
+    alias: ['r', 'R'],
+    type: 'string',
+    describe: 'Any of the planify\'s reporters',
 })
 .option('help', {
     alias: 'h',
@@ -73,12 +78,14 @@ function runServer() {
     const config = webpackConfig({ env: argv.env });
     const server = new WebpackDevServer(webpack(config), config.devServer);
 
-    server.listen(argv.port, argv.address, (err) => {
-        if (err) {
-            return reporter.fatal(err);
-        }
+    return new Promise((resolve, reject) => {
+        server.listen(argv.port, argv.address, (err) => {
+            if (err) {
+                return reject(err);
+            }
 
-        process.stdout.write('Listening at http://' + argv.address + ':' + argv.port + '\n');
+            process.stdout.write('Listening at http://' + argv.address + ':' + argv.port + '\n');
+        });
     });
 }
 
@@ -86,18 +93,13 @@ function runServer() {
 // Steps
 // ---------------------------------------------------------
 
-// Step - Validate environment
-reporter.step('Validating "' + argv.env + '" environment');
-validator.validateEnvironment(argv.env);
-
-// Step - Validate parameters
-reporter.step('Validating config/parameters.json');
-validator.validateParameters(parameters);
-
-// Step - Prepare (ensure build or clean build & setup if dev)
-reporter.step('Prepare web directory');
-prepareWeb();
-
-// Step - Run server
-reporter.step('Run server');
-runServer();
+planify({ exit: true, reporter: argv.reporter })
+// Validate environment
+.step('Validating "' + argv.env + '" environment', () => validator.validateEnvironment(argv.env))
+// Validate if parameters.json are ok and up to date
+.step('Validating config/parameters.json', () => validator.validateParameters(parameters))
+// Ensure build or clean build & setup if dev
+.step('Prepare web directory', () => prepareWeb())
+// Run server
+.step('Run server', () => runServer())
+.run();

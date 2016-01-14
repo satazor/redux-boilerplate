@@ -5,7 +5,7 @@ body {
     color: #4e4f4f;
     font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
     font-size: 14px;
-    -moz-osx-font-smoothing: grayscale; /* Font smoothing tweaks for MacOSx in Gecko */
+    -moz-osx-font-smoothing: grayscale;  /* Font smoothing tweaks for MacOSx in Gecko */
     -webkit-font-smoothing: antialiased; /* Font smoothing tweaks for MacOSx in Webkit */
 
     line-height: 1.428571429;

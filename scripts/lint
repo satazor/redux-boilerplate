@@ -3,9 +3,9 @@
 'use strict';
 
 const yargs = require('yargs');
+const planify = require('planify');
 const eslint = require('eslint');
 const stylelint = require('stylelint');
-const reporter = require('./common/reporter');
 
 const projectDir = __dirname + '/..';
 
@@ -23,6 +23,11 @@ const argv = yargs
     type: 'boolean',
     describe: 'Show the lint output',
     default: true,
+})
+.option('reporter', {
+    alias: ['r', 'R'],
+    type: 'string',
+    describe: 'Any of the planify\'s reporters',
 })
 .option('help', {
     alias: 'h',
@@ -52,7 +57,7 @@ function runEslint(files) {
     }
 
     if (report.errorCount) {
-        reporter.fail(new Error('eslint reported ' + report.errorCount + ' error(s)'));
+        throw new Error('eslint reported ' + report.errorCount + ' error(s)');
     }
 }
 
@@ -67,7 +72,7 @@ function runStylelint(files) {
         argv.lintOutput && process.stdout.write(output ? output + '\n\n' : '');
 
         if (result.errored) {
-            reporter.fail(new Error('stylelint result contains errors'));
+            throw new Error('stylelint result contains errors');
         }
     });
 }
@@ -76,14 +81,13 @@ function runStylelint(files) {
 // Steps
 // ---------------------------------------------------------
 
-// Step - Run es-lint to validate JS source code
-reporter.step('Running es-lint in src/**/*.js and config/**/*.js');
-runEslint([projectDir + '/src/**/*.js', projectDir + '/config/**/*.js']);
 
-// Step - Run es-lint to validate scripts JS code
-reporter.step('Running es-lint in scripts/**/*.js');
-runEslint([projectDir + '/scripts/**/*.js']);
-
-// Step - Run stylelint to validate CSS code
-reporter.step('Running stylelint in src/**/*.css');
-runStylelint([projectDir + '/src/**/*.css']);
+planify({ exit: true, reporter: argv.reporter })
+// Run es-lint to validate JS source code
+.step('Running es-lint in src/**/*.js and config/**/*.js', () =>
+    runEslint([projectDir + '/src/**/*.js', projectDir + '/config/**/*.js']))
+// Run es-lint to validate scripts JS code
+.step('Running es-lint in scripts/**/*.js', () => runEslint([projectDir + '/scripts/**/*.js']))
+// Run stylelint to validate CSS code
+.step('Running stylelint in src/**/*.css', () => runStylelint([projectDir + '/src/**/*.css']))
+.run();

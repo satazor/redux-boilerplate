@@ -1,4 +1,4 @@
-import merge from 'lodash/object/merge';
+import merge from 'lodash/merge';
 import baseConfig from './config';
 
 // Configuration for the prod environment goes here,

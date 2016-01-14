@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const reporter = require('./reporter');
+const errcode = require('err-code');
 const diff = require('diff-json-structure');
 
 const projectDir = __dirname + '/../../';
@@ -13,11 +13,11 @@ function validateEnvironment(env) {
         fs.statSync(projectDir + '/config/config-' + env + '.js');
     } catch (err) {
         if (err.code === 'ENOENT') {
-            reporter.fail(new Error('Environment ' + env + ' does not exist'),
-                'You must create its configuration file at config/config-' + env + '.js');
+            throw errcode('Environment ' + env + ' does not exist', { detail: 'You must create its configuration \
+file at config/config-' + env + '.js' });
         }
 
-        reporter.fatal(err);
+        throw err;
     }
 }
 
@@ -30,7 +30,7 @@ function validateParameters(parameters) {
         return;
     }
 
-    let extraErrorMsg = '';
+    let errDetail = '';
 
     diffParts.forEach((part) => {
         part.value
@@ -38,19 +38,19 @@ function validateParameters(parameters) {
         .filter((line) => !!line)
         .forEach((line) => {
             if (part.added) {
-                extraErrorMsg += chalk.green('+  ' + line) + '\n';
+                errDetail += chalk.green('+  ' + line) + '\n';
             } else if (part.removed) {
-                extraErrorMsg += chalk.red('-  ' + line) + '\n';
+                errDetail += chalk.red('-  ' + line) + '\n';
             } else {
-                extraErrorMsg += chalk.dim('   ' + line) + '\n';
+                errDetail += chalk.dim('   ' + line) + '\n';
             }
         });
     });
 
-    extraErrorMsg += '\n\nPlease reconciliate the changes according to the diff above.';
+    errDetail += '\n\nPlease apply the changes according to the diff above.';
 
-    reporter.fail(new Error('config/parameters.json.dist was modified recently and \
-contains differences compared to config/parameters.json'), extraErrorMsg);
+    throw errcode('config/parameters.json.dist was modified recently and \
+contains differences compared to config/parameters.json', { detail: errDetail });
 }
 
 function validateBuild() {
@@ -59,9 +59,11 @@ function validateBuild() {
         fs.statSync(projectDir + '/web/index.html');
     } catch (err) {
         if (err.code === 'ENOENT') {
-            reporter.fail(new Error('No build was found in ' + path.relative(process.cwd(), projectDir + '/web')),
-                'Please build the project before');
+            throw errcode('No build was found in ' + path.relative(process.cwd(), projectDir + '/web'),
+                { detail: 'Please build the project before' });
         }
+
+        throw err;
     }
 }
 

@@ -4,9 +4,10 @@
 
 const fs = require('fs');
 const cp = require('child_process');
+const errcode = require('err-code');
 const rimraf = require('rimraf');
 const yargs = require('yargs');
-const reporter = require('./common/reporter');
+const planify = require('planify');
 
 const projectDir = __dirname + '/..';
 
@@ -23,6 +24,11 @@ const argv = yargs
     alias: 'f',
     type: 'boolean',
     describe: 'Forces the re-initialization of the project',
+})
+.option('reporter', {
+    alias: ['r', 'R'],
+    type: 'string',
+    describe: 'Any of the planify\'s reporters',
 })
 .option('help', {
     alias: 'h',
@@ -49,12 +55,12 @@ function checkAlreadyInitialized() {
         if (err.code === 'ENOENT') {
             inited = false;
         } else {
-            reporter.fatal(err);
+            throw err;
         }
     }
 
     if (inited && !argv.force) {
-        reporter.fail(new Error('Project is already initialized'), 'Run with --force to re-initialize the project');
+        throw errcode('Project is already initialized', { detail: 'Run with --force to re-initialize the project' });
     }
 }
 
@@ -76,32 +82,24 @@ function installDependencies() {
     rimraf.sync(projectDir + '/node_modules');
 
     process.stdout.write('Running npm install..\n');
-    try {
-        cp.execSync('npm install', {
-            cwd: projectDir,
-            stdio: 'inherit',
-        });
-    } catch (err) {
-        return reporter.fatal(err);
-    }
+
+    cp.execSync('npm install', {
+        cwd: projectDir,
+        stdio: 'inherit',
+    });
 }
 
 // ---------------------------------------------------------
 // Steps
 // ---------------------------------------------------------
 
-checkAlreadyInitialized();
-
-// Step - Copy parameters.json.dist
-reporter.step('Copy parameters.json.dist to parameters.json');
-copyParameters();
-
-// Step - Install pre-commit hook
-reporter.step('Install pre-commit hook');
-installPreCommitHook();
-
-// Replace redux-boilerplate with app name
-
-// Step - Install dependencies
-reporter.step('Installing dependencies');
-installDependencies();
+planify({ exit: true, reporter: argv.reporter })
+// Check if project is already initialized
+.step('Check project status', () => checkAlreadyInitialized())
+// Copy dist parameters
+.step('Copy parameters.json.dist to parameters.json', () => copyParameters())
+// Install pre-commit hook into .git folder
+.step('Install pre-commit hook', () => installPreCommitHook())
+// Fresh install dependencies
+.step('Installing dependencies', () => installDependencies())
+.run();
