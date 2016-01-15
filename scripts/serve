@@ -76,15 +76,28 @@ function prepareWeb() {
 
 function runServer() {
     const config = webpackConfig({ env: argv.env });
-    const server = new WebpackDevServer(webpack(config), config.devServer);
+
+    process.stdout.write('Environment:       ' + argv.env + '\n');
+
+    if (argv.env === 'dev') {
+        process.stdout.write('Hot reloading:     ' + (config.devServer.hot ? 'on' : 'off') + '\n');
+        process.stdout.write('Lazy build:        ' + (config.devServer.lazy ? 'on' : 'off') + '\n');
+        process.stdout.write('Show stats:        ' + (config.devServer.stats ? 'on' : 'off') + '\n');
+    } else {
+        process.stdout.write('Gzip compression:  ' + (config.devServer.compress ? 'on' : 'off') + '\n');
+    }
+
+    process.stdout.write('Server address:    http://' + argv.address + ':' + argv.port + '\n');
 
     return new Promise((resolve, reject) => {
+        const server = new WebpackDevServer(webpack(config), config.devServer);
+
         server.listen(argv.port, argv.address, (err) => {
             if (err) {
-                return reject(err);
+                reject(err);
+            } else {
+                process.stdout.write('\nServer is now up and running, press CTRL-C to stop.\n');
             }
-
-            process.stdout.write('Listening at http://' + argv.address + ':' + argv.port + '\n');
         });
     });
 }

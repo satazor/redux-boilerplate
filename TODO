@@ -5,7 +5,5 @@
 - add hot-reloading
 - add redux stuff & middleware to handle async
 - complete README
-- Look into postcss
-- ?sourceMap does not work very well in css-loader, investigate
-- add stylelint
+- source maps are not being correctly generated in dev for some files.. weird shit
 - take a look at possible react-boilerplate stuff to be used here

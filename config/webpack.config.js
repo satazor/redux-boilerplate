@@ -4,22 +4,36 @@
 'use strict';
 
 const path = require('path');
+const assign = require('lodash/assign');
+const parameters = require('./parameters.json');
+const projectDir = path.resolve(__dirname + '/..');
+
+// webpack plugins
+const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
 const NoErrorsPlugin = require('webpack/lib/NoErrorsPlugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer = require('autoprefixer');
-const parameters = require('./parameters.json');
 
-const projectDir = path.resolve(__dirname + '/..');
+// post css plugins
+const autoprefixer = require('autoprefixer');
+
 
 function buildConfig(options) {
-    const env = options.env || 'dev';
-    const isDev = env === 'dev';
-    const minify = options.minify != null ? !!options.minify : !isDev;
+    options = assign({ env: 'dev', minify: null });
+    options.minify = options.minify != null ? !!options.minify : options.env !== 'dev';
+    const isDev = options.env === 'dev';
 
     return {
-        entry: projectDir + '/src/bootstrap.js',
+        // ---------------------------------------------------------
+        // Webpack configuration
+        // ---------------------------------------------------------
+        entry: [
+            isDev && 'webpack-dev-server/client?/',
+            isDev && 'webpack/hot/only-dev-server',
+            projectDir + '/src/bootstrap.js',
+
+        ].filter((val) => !!val),
         output: {
             path: projectDir + '/web/build/',
             publicPath: parameters.publicPath,
@@ -30,7 +44,7 @@ function buildConfig(options) {
         devtool: isDev ? 'cheap-module-source-map' : 'source-map',
         resolve: {
             alias: {
-                config: projectDir + '/config/config-' + env + '.js',
+                config: projectDir + '/config/config-' + options.env + '.js',
                 core: projectDir + '/src/core/',
             },
         },
@@ -46,10 +60,12 @@ function buildConfig(options) {
                     },
                 },
                 // Style loader enables us to import CSS files through normal imports
+                // We also use postcss-loader so that we can use the awesome autoprefixer
                 {
                     test: /\.css$/,
                     include: [projectDir + '/src'],
-                    loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap!postcss-loader'),
+                    loader: ExtractTextPlugin.extract('style-loader',
+                                'css-loader?importLoaders=1&sourceMap!postcss-loader'),
                 },
                 // JSON loader so that we can import json files, such as parameters.json
                 {
@@ -61,9 +77,11 @@ function buildConfig(options) {
         },
         postcss: () => [
             // Auto prefix CSS based on https://github.com/ai/browserslist
-            autoprefixer({ browsers: ['last 2 versions', 'IE >= 10'] }),
+            autoprefixer({ browsers: ['last 2 versions', 'IE >= 11'] }),
         ],
         plugins: [
+            // Make HMR work
+            isDev && new HotModuleReplacementPlugin(),
             // Ensures that files with errors are produced
             new NoErrorsPlugin(),
             // Reduce react file size as well as other libraries
@@ -78,7 +96,7 @@ function buildConfig(options) {
                 disable: isDev,
             }),
             // Minify JS
-            minify && new UglifyJsPlugin({
+            options.minify && new UglifyJsPlugin({
                 compressor: {
                     warnings: false,
                     drop_console: true,   // Drop console.* statements
@@ -87,16 +105,18 @@ function buildConfig(options) {
                 },
             }),
         ].filter((val) => !!val),
-        // Dev server configuration
+        // ---------------------------------------------------------
+        // Webpack dev server configuration
+        // ---------------------------------------------------------
         devServer: {
             publicPath: parameters.publicPath,
             contentBase: projectDir + '/web/',
             filename: 'main.js',
-            lazy: !isDev,
-            historyApiFallback: true,
-            stats: {
-                colors: true,
-            },
+            hot: isDev,                   // Enable HMR in dev
+            compress: !isDev,             // Gzip compress when not in dev
+            lazy: !isDev,                 // Don't do webpack builds when not dev
+            historyApiFallback: true,     // Allow deep-linking
+            stats: false,
             // API proxies to circumvent CORS issues while developing
             // See available options in https://github.com/nodejitsu/node-http-proxy
             proxy: {
