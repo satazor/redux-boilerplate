@@ -53,7 +53,7 @@
     "extract-text-webpack-plugin": "^1.0.0",
     "html-minifier": "^1.0.0",
     "json-loader": "^0.5.4",
-    "planify": "^1.0.0",
+    "planify": "^1.0.4",
     "postcss-loader": "^0.8.0",
     "rimraf": "^2.4.4",
     "style-loader": "^0.13.0",
