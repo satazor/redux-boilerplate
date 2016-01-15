@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@satazor/eslint-config": "^1.0.3",
-    "autoprefixer": "^6.2.2",
+    "autoprefixer": "^6.3.0",
     "babel-core": "^6.3.15",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^6.2.0",
