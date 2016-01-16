@@ -65,6 +65,9 @@ function runWebpack() {
 ' + path.relative(process.cwd(), projectDir + '/node_modules/.bin/webpack') + ' --config \
 ' + path.relative(process.cwd(), projectDir + '/config/webpack.config.js') + ' --env ' + argv.env;
 
+        // Set process.env.NODE_ENV because .babelrc has specific presets & plugins per env
+        process.env.NODE_ENV = argv.env === 'dev' ? 'development' : 'production';
+
         webpack(config, (err, stats) => {
             if (err) {
                 return reject(errcode(err, { detail: errDetail }));

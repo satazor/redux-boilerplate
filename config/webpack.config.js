@@ -18,9 +18,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 // post css plugins
 const autoprefixer = require('autoprefixer');
 
-
 function buildConfig(options) {
-    options = assign({ env: 'dev', minify: null });
+    options = assign({ env: 'dev', minify: null }, options);
     options.minify = options.minify != null ? !!options.minify : options.env !== 'dev';
     const isDev = options.env === 'dev';
 
@@ -29,8 +28,8 @@ function buildConfig(options) {
         // Webpack configuration
         // ---------------------------------------------------------
         entry: [
-            isDev && 'webpack-dev-server/client?/',  // Necessary for hot realoading
-            isDev && 'webpack/hot/only-dev-server',  // Necessary for hot realoading
+            isDev && 'webpack-dev-server/client?/',  // Necessary for hot reloading
+            isDev && 'webpack/hot/only-dev-server',  // Necessary for hot reloading
             projectDir + '/src/bootstrap.js',
 
         ].filter((val) => !!val),
@@ -55,9 +54,6 @@ function buildConfig(options) {
                     test: /\.js$/,
                     include: [projectDir + '/src', projectDir + '/config'],
                     loader: 'babel-loader',
-                    query: {
-                        presets: ['es2015', 'react'],
-                    },
                 },
                 // Style loader enables us to import CSS files through normal imports
                 // We also use postcss-loader so that we can use the awesome autoprefixer
@@ -82,7 +78,7 @@ function buildConfig(options) {
         plugins: [
             // Ensures that hot reloading works
             isDev && new HotModuleReplacementPlugin(),
-            // Ensures that files with errors are produced
+            // Ensures that files with NO errors are produced
             new NoErrorsPlugin(),
             // Reduce react file size as well as other libraries
             new DefinePlugin({
@@ -114,7 +110,7 @@ function buildConfig(options) {
             filename: 'main.js',
             hot: isDev,                   // Enable HMR in dev
             compress: !isDev,             // Gzip compress when not in dev
-            lazy: !isDev,                 // Don't do webpack builds when not dev
+            lazy: !isDev,                 // Don't do webpack builds when not in dev
             historyApiFallback: true,     // Allow deep-linking
             stats: false,
             // API proxies to circumvent CORS issues while developing
