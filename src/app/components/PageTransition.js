@@ -20,11 +20,9 @@ export default class PageTransition extends Component {
     }
 
     getStyles() {
-        const { children, pathname } = this.props;
-
         return {
-            [pathname]: {
-                handler: children,
+            [this.props.pathname]: {
+                handler: this.props.children,
                 opacity: spring(1),
             },
         };

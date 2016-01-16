@@ -39,8 +39,6 @@ function buildConfig(options) {
             filename: isDev ? '[name].js' : '[name].[hash].js',
             chunkFilename: isDev ? '[name].js' : '[name].[hash].js',
         },
-        debug: isDev,
-        devtool: isDev ? 'cheap-module-source-map' : 'source-map',
         resolve: {
             alias: {
                 config: projectDir + '/config/config-' + options.env + '.js',
@@ -101,6 +99,9 @@ function buildConfig(options) {
                 },
             }),
         ].filter((val) => !!val),
+        bail: true,     // Bail out on first build error
+        debug: isDev,
+        devtool: isDev ? 'cheap-module-source-map' : 'source-map',
         // ---------------------------------------------------------
         // Webpack dev server configuration
         // ---------------------------------------------------------
@@ -112,7 +113,7 @@ function buildConfig(options) {
             compress: !isDev,             // Gzip compress when not in dev
             lazy: !isDev,                 // Don't do webpack builds when not in dev
             historyApiFallback: true,     // Allow deep-linking
-            stats: false,
+            stats: false,                 // Be quiet!
             // API proxies to circumvent CORS issues while developing
             // See available options in https://github.com/nodejitsu/node-http-proxy
             proxy: {
