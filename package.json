@@ -54,7 +54,7 @@
     "babel-preset-react-hmre": "^1.0.1",
     "babel-preset-stage-2": "^6.3.13",
     "chalk": "^1.1.1",
-    "cross-spawn-async": "^2.1.6",
+    "cross-spawn-async": "^2.1.8",
     "css-loader": "^0.23.0",
     "diff-json-structure": "^1.0.0",
     "err-code": "^1.1.0",
