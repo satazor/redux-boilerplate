@@ -1,4 +1,4 @@
-import './css/navigation.css';
+import './Navigation.css';
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 
@@ -7,8 +7,8 @@ export default class Navigation extends Component {
         return (
             <div id="navigation">
                 <ul>
-                    <li><IndexLink to={`/`} activeClassName="is-active">Home</IndexLink></li>
-                    <li><Link to={`/about`} activeClassName="is-active">About</Link></li>
+                    <li><IndexLink to={ '/' } activeClassName="is-active">Home</IndexLink></li>
+                    <li><Link to={ '/todos' } activeClassName="is-active">Todos</Link></li>
                 </ul>
             </div>
         );

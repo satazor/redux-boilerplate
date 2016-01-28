@@ -9,11 +9,15 @@ const minifyHtml = require('html-minifier').minify;
 const projectDir = __dirname + '/../..';
 
 function cleanBuild() {
+    process.stdout.write('Cleaning previous build..\n');
+
     rimraf.sync(projectDir + '/web/build');
     rimraf.sync(projectDir + '/web/index.html');
 }
 
 function generateIndex(data, minify) {
+    process.stdout.write('Generating index..\n');
+
     const tmpl = template(fs.readFileSync(projectDir + '/web/.index.html'));
     let index;
 

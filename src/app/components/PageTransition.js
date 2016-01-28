@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { TransitionMotion, spring } from 'react-motion';
+import bindAll from 'lodash/bindAll';
 
 /**
  * Transition to be used for top application routes (pages).
- *
  * Usage is simple:
  *
  *   <PageTransition pathname={this.props.pathname}>
@@ -11,15 +11,38 @@ import { TransitionMotion, spring } from 'react-motion';
  *   </PageTransition>
  */
 export default class PageTransition extends Component {
-    constructor() {
-        super();
-
-        // Binds
-        this.willEnter = this.willEnter.bind(this);
-        this.willLeave = this.willLeave.bind(this);
+    constructor(...args) {
+        super(...args);
+        bindAll(this, '_willEnter', '_willLeave');
     }
 
-    getStyles() {
+    render() {
+        /* eslint react/jsx-key:0 */
+        return (
+            <TransitionMotion
+                styles={ this._getStyles() }
+                willEnter={ this._willEnter }
+                willLeave={ this._willLeave }>
+            { (interpolated) =>
+                <div className="pages-wrapper">
+                { Object.keys(interpolated).map((key) =>
+                    <div
+                        className="page-transition"
+                        key={ `${key}-transition` }
+                        style={ {
+                            position: 'absolute',
+                            opacity: interpolated[key].opacity,
+                        } }>
+                        { interpolated[key].handler }
+                    </div>
+                ) }
+                </div>
+            }
+            </TransitionMotion>
+        );
+    }
+
+    _getStyles() {
         return {
             [this.props.pathname]: {
                 handler: this.props.children,
@@ -28,46 +51,18 @@ export default class PageTransition extends Component {
         };
     }
 
-    willEnter() {
+    _willEnter() {
         return {
             handler: this.props.children,
             opacity: spring(0),
         };
     }
 
-    willLeave(key, value) {
+    _willLeave(key, value) {
         return {
             handler: value.handler,
             opacity: spring(0),
         };
-    }
-
-    render() {
-        /* eslint react/jsx-key:0 */
-        return (
-            <TransitionMotion
-                styles={this.getStyles()}
-                willEnter={this.willEnter}
-                willLeave={this.willLeave}
-            >
-            {(interpolated) =>
-                <div className="pages-wrapper">
-                {Object.keys(interpolated).map((key) =>
-                    <div
-                        className="page-transition"
-                        key={`${key}-transition`}
-                        style={{
-                            position: 'absolute',
-                            opacity: interpolated[key].opacity,
-                        }}
-                    >
-                        {interpolated[key].handler}
-                    </div>
-                )}
-                </div>
-            }
-            </TransitionMotion>
-        );
     }
 }
 

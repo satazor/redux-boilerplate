@@ -82,7 +82,6 @@ function runServer() {
     if (argv.env === 'dev') {
         process.stdout.write('Hot reloading:     ' + (config.devServer.hot ? 'on' : 'off') + '\n');
         process.stdout.write('Lazy build:        ' + (config.devServer.lazy ? 'on' : 'off') + '\n');
-        process.stdout.write('Show stats:        ' + (config.devServer.stats ? 'on' : 'off') + '\n');
     } else {
         process.stdout.write('Gzip compression:  ' + (config.devServer.compress ? 'on' : 'off') + '\n');
     }

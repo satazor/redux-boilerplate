@@ -1,8 +1,8 @@
-import './css/application.css';
+import './Application.css';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Navigation from './Navigation';
-import PageTransition from './PageTransition';
+import Navigation from '../components/Navigation';
+import PageTransition from '../components/PageTransition';
 
 class Application extends Component {
     render() {
@@ -10,8 +10,8 @@ class Application extends Component {
             <div id="application">
                 <Navigation/>
                 <div id="pages">
-                    <PageTransition pathname={this.props.location.pathname}>
-                        {this.props.children}
+                    <PageTransition pathname={ this.props.location.pathname }>
+                        { this.props.children }
                     </PageTransition>
                 </div>
             </div>

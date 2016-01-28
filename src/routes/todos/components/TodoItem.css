@@ -1,0 +1,8 @@
+.todo-item.is-completed .label {
+    text-decoration: line-through;
+}
+
+.todo-item .action-remove {
+    margin-left: 10px;
+    color: red;
+}

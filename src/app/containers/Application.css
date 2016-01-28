@@ -1,5 +1,4 @@
-@import "./base/layout.css";
-@import "./base/typography.css";
+@import "~core/ui-styles/index.css";
 
 #root {
     position: relative;

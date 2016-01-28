@@ -1,14 +1,3 @@
-import Application from './components/Application';
-import homeRoutes from './routes/home';
-import aboutRoutes from './routes/about';
+import Application from './containers/Application';
 
-const routes = {
-    path: '/',
-    component: Application,
-    childRoutes: [
-        homeRoutes,
-        aboutRoutes,
-    ],
-};
-
-export default routes;
+export default Application;

@@ -1,9 +1,10 @@
 - test deep nested routes
-- update .eslintrc.json to use @satazor/eslint-config
-   - only after my fix got released https://github.com/eslint/eslint/issues/4800
-   - ask for cherry-pick on https://github.com/eslint/eslint/issues/4229#issuecomment-167324323
-- add hot-reloading
-- add redux stuff & middleware to handle async
+- wait for eslint 2 to be released and update stuff accordingly
+- add redux stuff
+  - middleware
+  - decide async
+  - add hot-reloading for reducers
 - complete README
 - source maps are not being correctly generated in dev for some files.. weird shit
-- take a look at possible react-boilerplate stuff to be used here
+- postinstall to init
+- 404 route

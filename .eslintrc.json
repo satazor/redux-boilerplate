@@ -1,5 +1,8 @@
 {
     "root": true,
+    "ecmaFeatures": {
+        "experimentalObjectRestSpread": true
+    },
     "extends": [
         "./node_modules/@satazor/eslint-config/es6.js",
         "./node_modules/@satazor/eslint-config/addons/es6-modules.js",

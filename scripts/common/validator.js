@@ -19,6 +19,8 @@ file at config/config-' + env + '.js' });
 
         throw err;
     }
+
+    process.stdout.write('Environment ' + env + ' environment is valid.\n');
 }
 
 function validateParameters(parameters) {
@@ -27,7 +29,7 @@ function validateParameters(parameters) {
     const isDifferent = diffParts.some((part) => part.added || part.removed);
 
     if (!isDifferent) {
-        return;
+        return process.stdout.write('Parameters are valid.\n');
     }
 
     let errDetail = '';
@@ -65,6 +67,8 @@ function validateBuild() {
 
         throw err;
     }
+
+    process.stdout.write('Build was found.\n');
 }
 
 module.exports = {
