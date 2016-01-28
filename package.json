@@ -32,7 +32,7 @@
     "history": "^1.17.0",
     "lodash": "^4.0.0",
     "react": "^0.14.3",
-    "react-dom": "^0.14.3",
+    "react-dom": "^0.14.7",
     "react-motion": "^0.3.1",
     "react-redux": "^4.0.0",
     "react-router": "^1.0.2",
