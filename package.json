@@ -65,7 +65,7 @@
     "postcss-loader": "^0.8.0",
     "rimraf": "^2.4.4",
     "style-loader": "^0.13.0",
-    "stylelint": "^3.1.4",
+    "stylelint": "^4.3.1",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0",
     "yargs": "^3.31.0"
