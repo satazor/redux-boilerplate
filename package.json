@@ -64,7 +64,7 @@
     "planify": "^1.0.0",
     "postcss-loader": "^0.8.0",
     "rimraf": "^2.4.4",
-    "style-loader": "^0.13.0",
+    "style-loader": "^0.13.1",
     "stylelint": "^3.1.4",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0",
