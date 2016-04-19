@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/satazor/redux-boilerplate",
   "dependencies": {
-    "history": "^1.17.0",
+    "history": "^2.1.0",
     "lodash": "^4.0.0",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
