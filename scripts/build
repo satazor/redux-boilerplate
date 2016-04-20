@@ -21,6 +21,7 @@ const projectDir = `${__dirname}/..`;
 const argv = yargs
 .strict()
 .wrap(Math.min(120, yargs.terminalWidth()))
+.version().alias('version', 'v')
 .usage('Usage: ./$0 [options]')
 .demand(0, 0)
 .option('env', {
@@ -39,11 +40,6 @@ const argv = yargs
     alias: ['r', 'R'],
     type: 'string',
     describe: 'Any of the planify\'s reporters',
-})
-.option('help', {
-    alias: 'h',
-    type: 'boolean',
-    describe: 'Show the help',
 })
 .example('$0 --env staging', 'Builds the application for the staging environment')
 .example('$0 --no-minify', 'Builds the application for the production environment but do not minify')
