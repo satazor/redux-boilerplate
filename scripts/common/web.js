@@ -6,19 +6,19 @@ const rimraf = require('rimraf');
 const template = require('lodash/template');
 const minifyHtml = require('html-minifier').minify;
 
-const projectDir = __dirname + '/../..';
+const projectDir = `${__dirname}/../..`;
 
 function cleanBuild() {
     process.stdout.write('Cleaning previous build..\n');
 
-    rimraf.sync(projectDir + '/web/build');
-    rimraf.sync(projectDir + '/web/index.html');
+    rimraf.sync(`${projectDir}/web/build`);
+    rimraf.sync(`${projectDir}/web/index.html`);
 }
 
 function generateIndex(data, minify) {
     process.stdout.write('Generating index..\n');
 
-    const tmpl = template(fs.readFileSync(projectDir + '/web/.index.html'));
+    const tmpl = template(fs.readFileSync(`${projectDir}/web/.index.html`));
     let index;
 
     // Generate the index based on the template
@@ -41,7 +41,7 @@ function generateIndex(data, minify) {
             .join('\n');
     }
 
-    fs.writeFileSync(projectDir + '/web/index.html', index);
+    fs.writeFileSync(`${projectDir}/web/index.html`, index);
 }
 
 module.exports = {

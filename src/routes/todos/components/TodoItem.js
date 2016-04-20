@@ -14,7 +14,7 @@ export default class TodoItem extends Component {
 
     render() {
         return (
-            <li className={ 'todo-item' + (this.props.todo.completed ? ' is-completed' : '') }>
+            <li className={ `todo-item${this.props.todo.completed ? ' is-completed' : ''}` }>
                 <label>
                     <input type="checkbox" checked={ this.props.todo.completed }
                         onChange={ this._handleCheckboxChange }/>

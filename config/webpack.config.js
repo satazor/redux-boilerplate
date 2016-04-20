@@ -6,7 +6,7 @@
 const path = require('path');
 const assign = require('lodash/assign');
 const parameters = require('./parameters.json');
-const projectDir = path.resolve(__dirname + '/..');
+const projectDir = path.resolve(`${__dirname}/..`);
 
 // webpack plugins
 const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
@@ -30,20 +30,20 @@ function buildConfig(options) {
         entry: [
             isDev && 'webpack-dev-server/client?/',  // Necessary for hot reloading
             isDev && 'webpack/hot/only-dev-server',  // Necessary for hot reloading
-            projectDir + '/src/bootstrap.js',
+            `${projectDir}/src/bootstrap.js`,
 
         ].filter((val) => !!val),
         output: {
-            path: projectDir + '/web/build/',
+            path: `${projectDir}/web/build/`,
             publicPath: parameters.publicPath,
             filename: isDev ? '[name].js' : '[name].[hash].js',
             chunkFilename: isDev ? '[name].js' : '[name].[hash].js',
         },
         resolve: {
             alias: {
-                config: projectDir + '/config/config-' + options.env + '.js',
-                core: projectDir + '/src/core/',
-                app: projectDir + '/src/app/',
+                config: `${projectDir}/config/config-${options.env}.js`,
+                core: `${projectDir}/src/core/`,
+                app: `${projectDir}/src/app/`,
             },
         },
         module: {
@@ -51,21 +51,21 @@ function buildConfig(options) {
                 // Babel loader enables us to use ES2015 + react's JSX
                 {
                     test: /\.js$/,
-                    include: [projectDir + '/src', projectDir + '/config'],
+                    include: [`${projectDir}/src`, `${projectDir}/config`],
                     loader: 'babel-loader',
                 },
                 // Style loader enables us to import CSS files through normal imports
                 // We also use postcss-loader so that we can use the awesome autoprefixer
                 {
                     test: /\.css$/,
-                    include: [projectDir + '/src'],
+                    include: [`${projectDir}/src`],
                     loader: ExtractTextPlugin.extract('style-loader',
                                 'css-loader?importLoaders=1&sourceMap!postcss-loader'),
                 },
                 // JSON loader so that we can import json files, such as parameters.json
                 {
                     test: /\.json$/,
-                    include: [projectDir + '/src', projectDir + '/config'],
+                    include: [`${projectDir}/src`, `${projectDir}/config`],
                     loader: 'json-loader',
                 },
             ],
@@ -82,7 +82,7 @@ function buildConfig(options) {
             // Reduce react file size as well as other libraries
             new DefinePlugin({
                 'process.env': {
-                    NODE_ENV: '"' + (isDev ? 'development' : 'production') + '"',
+                    NODE_ENV: `"${isDev ? 'development' : 'production'}"`,
                 },
             }),
             // Move CSS styles to a separate file
@@ -107,7 +107,7 @@ function buildConfig(options) {
         // ---------------------------------------------------------
         devServer: {
             publicPath: parameters.publicPath,
-            contentBase: projectDir + '/web/',
+            contentBase: `${projectDir}/web/`,
             filename: 'main.js',
             hot: isDev,                   // Enable HMR in dev
             compress: !isDev,             // Gzip compress when not in dev

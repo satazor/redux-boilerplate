@@ -1,12 +1,14 @@
 {
     "root": true,
-    "ecmaFeatures": {
-        "experimentalObjectRestSpread": true
+    "parserOptions": {
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        }
     },
     "extends": [
-        "./node_modules/@satazor/eslint-config/es6.js",
-        "./node_modules/@satazor/eslint-config/addons/es6-modules.js",
-        "./node_modules/@satazor/eslint-config/addons/browser.js",
-        "./node_modules/@satazor/eslint-config/addons/react.js"
+        "@satazor/eslint-config/es6",
+        "@satazor/eslint-config/addons/es6-modules",
+        "@satazor/eslint-config/addons/browser",
+        "@satazor/eslint-config/addons/react"
     ]
 }
