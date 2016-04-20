@@ -7,7 +7,7 @@ const errcode = require('err-code');
 const yargs = require('yargs');
 const planify = require('planify');
 
-const projectDir = __dirname + '/..';
+const projectDir = `${__dirname}/..`;
 
 // ---------------------------------------------------------
 // CLI definition
@@ -48,7 +48,7 @@ function checkAlreadyInitialized() {
     let inited = true;
 
     try {
-        fs.statSync(projectDir + '/config/parameters.json');
+        fs.statSync(`${projectDir}/config/parameters.json`);
     } catch (err) {
         if (err.code === 'ENOENT') {
             inited = false;
@@ -69,9 +69,9 @@ function checkAlreadyInitialized() {
 }
 
 function copyParameters() {
-    const contents = fs.readFileSync(projectDir + '/config/parameters.json.dist');
+    const contents = fs.readFileSync(`${projectDir}/config/parameters.json.dist`);
 
-    fs.writeFileSync(projectDir + '/config/parameters.json', contents);
+    fs.writeFileSync(`${projectDir}/config/parameters.json`, contents);
 
     process.stdout.write('Parameters copied to config/parameters.json.\n');
     process.stdout.write('You might need to tweak some of these properties for the app to work.\n');
@@ -80,8 +80,8 @@ function copyParameters() {
 function installPreCommitHook() {
     const contents = '#!/bin/sh\n\nnpm run pre-commit';
 
-    fs.writeFileSync(projectDir + '/.git/hooks/pre-commit', contents);
-    fs.chmodSync(projectDir + '/.git/hooks/pre-commit', 0o755);
+    fs.writeFileSync(`${projectDir}/.git/hooks/pre-commit`, contents);
+    fs.chmodSync(`${projectDir}/.git/hooks/pre-commit`, 0o755);
 
     process.stdout.write('"npm run pre-commit" will now be automatically run each time you commit.\n');
 }

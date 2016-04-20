@@ -7,7 +7,7 @@ const planify = require('planify');
 const eslint = require('eslint');
 const stylelint = require('stylelint');
 
-const projectDir = __dirname + '/..';
+const projectDir = `${__dirname}/..`;
 
 // ---------------------------------------------------------
 // CLI definition
@@ -53,11 +53,11 @@ function runEslint(files) {
         const formatter = cli.getFormatter();
         const output = formatter(report.results).trim();
 
-        process.stdout.write(output ? output + '\n' : '');
+        output && process.stdout.write(`${output}\n`);
     }
 
     if (report.errorCount) {
-        throw new Error('eslint reported ' + report.errorCount + ' error(s)');
+        throw new Error(`eslint reported ${report.errorCount} error(s)`);
     }
 }
 
@@ -69,7 +69,9 @@ function runStylelint(files) {
     .then((result) => {
         const output = result.output.trim();
 
-        argv.lintOutput && process.stdout.write(output ? output + '\n\n' : '');
+        if (argv.lintOutput) {
+            output && process.stdout.write(`${output}\n\n`);
+        }
 
         if (result.errored) {
             throw new Error('stylelint result contains errors');
@@ -84,10 +86,10 @@ function runStylelint(files) {
 
 planify({ exit: true, reporter: argv.reporter })
 // Run es-lint to validate JS source code
-.step('Running es-lint in src/**/*.js and config/**/*.js', () =>
-    runEslint([projectDir + '/src/**/*.js', projectDir + '/config/**/*.js']))
+.step('Running es-lint in src/**/*.js, scripts/**/*.js config/**/*.js', () =>
+    runEslint([`${projectDir}/src/**/*.js`, `${projectDir}/scripts/**/*.js`, `${projectDir}/config/**/*.js`]))
 // Run es-lint to validate scripts JS code
-.step('Running es-lint in scripts/**/*.js', () => runEslint([projectDir + '/scripts/**/*.js']))
+.step('Running es-lint in scripts/**/*.js', () => runEslint([`${projectDir}/scripts/**/*.js`]))
 // Run stylelint to validate CSS code
-.step('Running stylelint in src/**/*.css', () => runStylelint([projectDir + '/src/**/*.css']))
+.step('Running stylelint in src/**/*.css', () => runStylelint([`${projectDir}/src/**/*.css`]))
 .run();

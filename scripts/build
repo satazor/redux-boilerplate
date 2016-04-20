@@ -12,7 +12,7 @@ const web = require('./common/web');
 const webpackConfig = require('../config/webpack.config.js');
 const parameters = require('../config/parameters.json');
 
-const projectDir = __dirname + '/..';
+const projectDir = `${__dirname}/..`;
 
 // ---------------------------------------------------------
 // CLI definition
@@ -61,9 +61,11 @@ if (argv.help) {
 function runWebpack() {
     return new Promise((resolve, reject) => {
         const config = webpackConfig({ env: argv.env, minify: argv.minify });
-        const errDetail = 'You can replicate the issue by running \
-' + path.relative(process.cwd(), projectDir + '/node_modules/.bin/webpack') + ' --config \
-' + path.relative(process.cwd(), projectDir + '/config/webpack.config.js') + ' --env ' + argv.env;
+        let errDetail;
+
+        errDetail = 'You can replicate the issue by running ';
+        errDetail += `${path.relative(process.cwd(), `${projectDir}/node_modules/.bin/webpack`)} --config`;
+        errDetail += `${path.relative(process.cwd(), `${projectDir}/config/webpack.config.js`)} --env ${argv.env}`;
 
         // Set process.env.NODE_ENV because .babelrc has specific presets & plugins per env
         process.env.NODE_ENV = argv.env === 'dev' ? 'development' : 'production';
@@ -83,10 +85,10 @@ function runWebpack() {
             const string = stats.toString(Object.assign({ colors: true }, options)).trim();
 
             if (json.errors.length) {
-                return reject(errcode('Webpack build failed', { detail: string + '\n\n' + errDetail }));
+                return reject(errcode('Webpack build failed', { detail: `${string}\n\n${errDetail}` }));
             }
 
-            process.stdout.write(string + '\n\n');
+            process.stdout.write(`${string}\n\n`);
 
             resolve({
                 env: argv.env,
@@ -103,9 +105,9 @@ function runWebpack() {
 
 planify({ exit: true, reporter: argv.reporter })
 // Validate build environment
-.step('Validating "' + argv.env + '" environment', () => {
+.step(`Validating "${argv.env}" environment`, () => {
     if (argv.env === 'dev') {
-        throw new Error('The ' + argv.env + ' environment can\'t be built');
+        throw new Error(`The ${argv.env} environment can't be built`);
     }
 
     return validator.validateEnvironment(argv.env);

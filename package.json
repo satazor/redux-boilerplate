@@ -8,6 +8,7 @@
     "lint": "./scripts/lint",
     "build": "./scripts/build",
     "serve": "./scripts/serve",
+    "serve:prod": "./scripts/serve --env prod",
     "pre-commit": "./scripts/lint"
   },
   "repository": {
@@ -67,7 +68,7 @@
     "stylelint": "^5.0.0",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0",
-    "yargs": "^3.31.0"
+    "yargs": "^4.6.0"
   },
   "engines": {
     "node": ">=4.0.0"
