@@ -3,7 +3,6 @@
 'use strict';
 
 const fs = require('fs');
-const errcode = require('err-code');
 const yargs = require('yargs');
 const planify = require('planify');
 
@@ -61,7 +60,8 @@ function checkAlreadyInitialized() {
         return process.stdout.write('Project already initialized but --force was specified, proceeding..\n');
     }
 
-    throw errcode('Project is already initialized', { detail: 'Run with --force to re-initialize the project' });
+    process.stdout.write('Project is already initialized, run with --force to re-initialize the project.\n');
+    process.exit();
 }
 
 function copyParameters() {

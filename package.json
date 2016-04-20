@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "description": "A boilerplate for starting a large redux based app.",
   "scripts": {
-    "test": "npm run lint",
-    "init": "npm install && ./scripts/init",
     "lint": "./scripts/lint",
     "build": "./scripts/build",
     "serve": "./scripts/serve",
     "serve:prod": "./scripts/serve --env prod",
-    "pre-commit": "./scripts/lint"
+    "pre-commit": "./scripts/lint",
+
+    "test": "npm run lint",
+    "postinstall": "./scripts/init"
   },
   "repository": {
     "type": "git",
