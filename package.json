@@ -8,7 +8,6 @@
     "serve": "./scripts/serve",
     "serve:prod": "./scripts/serve --env prod",
     "pre-commit": "./scripts/lint",
-
     "test": "npm run lint",
     "postinstall": "./scripts/init"
   },
@@ -66,7 +65,7 @@
     "postcss-loader": "^0.8.0",
     "rimraf": "^2.4.4",
     "style-loader": "^0.13.0",
-    "stylelint": "^5.0.0",
+    "stylelint": "^6.0.3",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0",
     "yargs": "^4.6.0"
