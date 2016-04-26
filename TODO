@@ -1,8 +1,6 @@
-- test deep nested routes
 - add redux stuff
   - middleware
   - decide async
   - add hot-reloading for reducers
 - complete README
 - source maps are not being correctly generated in dev for some files.. weird shit
-- 404 route
