@@ -122,7 +122,6 @@ function buildConfig(options) {
             proxy: {
                 '/api/*': {
                     target: 'https://mysite.com/api/',
-                    secure: false,
                     prependPath: false,
                 },
             },
