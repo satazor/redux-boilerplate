@@ -16,4 +16,13 @@ export default [
             require.ensure([], (require) => callback(null, require('./todos').default.component), 'todos');
         },
     },
+    {
+        path: '/*',
+        getComponent(location, callback) {
+            require.ensure([], (require) => callback(null, require('./not-found').default.component), 'not-found');
+        },
+        getChildRoutes(location, callback) {
+            require.ensure([], (require) => callback(null, require('./not-found').default.component), 'not-found');
+        },
+    },
 ];
