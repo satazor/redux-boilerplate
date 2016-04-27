@@ -19,8 +19,8 @@
         <!-- Load app main file -->
         <script src="<%= parameters.publicPath %>main<%= hash ? '.' + hash : '' %>.js"></script>
 
-        <% if (env !== 'dev' && parameters.googleAnalyticsId) { %>
-        <!-- Add google analytics and similar goes here -->
+        <% if (env !== 'dev') { %>
+        <!-- Google analytics and similar goes here -->
         <script>
             /*eslint-disable */
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
