@@ -122,7 +122,9 @@ function buildConfig(options) {
             proxy: {
                 '/api/*': {
                     target: 'https://mysite.com/api/',
-                    prependPath: false,
+                    rewrite: (req) => {
+                        req.url = req.url.replace(/^\/api/, '');
+                    },
                 },
             },
         },
