@@ -57,7 +57,7 @@
     "diff-json-structure": "^1.0.0",
     "err-code": "^1.1.0",
     "eslint": "^2.8.0",
-    "eslint-plugin-react": "^5.0.1",
+    "eslint-plugin-react": "^5.1.1",
     "extract-text-webpack-plugin": "^1.0.0",
     "html-minifier": "^2.0.0",
     "json-loader": "^0.5.4",
