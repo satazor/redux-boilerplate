@@ -118,13 +118,12 @@ function buildConfig(options) {
                 assets: false, hash: false, timings: false, version: false,
             },
             // API proxies to circumvent CORS issues while developing
-            // See available options in https://github.com/nodejitsu/node-http-proxy
+            // See available options in https://github.com/chimurai/http-proxy-middleware
             proxy: {
                 '/api/*': {
                     target: 'https://mysite.com/api/',
-                    rewrite: (req) => {
-                        req.url = req.url.replace(/^\/api/, '');
-                    },
+                    pathRewrite: { '^/api': '/' },
+                    logLevel: 'warn',
                 },
             },
         },
