@@ -6,7 +6,7 @@ import NewTodoForm from '../components/NewTodoForm';
 import TodoItem from '../components/TodoItem';
 import * as actions from '../state/actions';
 
-export default class Todos extends Component {
+class Todos extends Component {
     constructor(...args) {
         super(...args);
         bindAll(this, '_handleToggle', '_handleSubmit', '_handleRemove');

@@ -2,7 +2,7 @@ import './Home.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-export default class Home extends Component {
+class Home extends Component {
     render() {
         return (
             <div className="page page-home">
