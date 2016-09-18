@@ -53,7 +53,7 @@
     "babel-preset-react-hmre": "^1.0.1",
     "babel-preset-stage-2": "^6.3.13",
     "chalk": "^1.1.1",
-    "css-loader": "^0.23.0",
+    "css-loader": "^0.25.0",
     "diff-json-structure": "^1.0.0",
     "err-code": "^1.1.0",
     "eslint": "^3.0.0",
@@ -62,13 +62,13 @@
     "html-minifier": "^3.0.2",
     "json-loader": "^0.5.4",
     "planify": "^1.0.0",
-    "postcss-loader": "^0.10.0",
+    "postcss-loader": "^0.13.0",
     "rimraf": "^2.4.4",
     "style-loader": "^0.13.0",
     "stylelint": "^7.0.2",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0",
-    "yargs": "^4.6.0"
+    "yargs": "^5.0.0"
   },
   "engines": {
     "node": ">=4.0.0"
