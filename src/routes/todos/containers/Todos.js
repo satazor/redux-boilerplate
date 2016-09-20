@@ -17,11 +17,11 @@ class Todos extends Component {
             <div className="page-todos">
                 <NewTodoForm onSubmit={ this._handleSubmit }/>
                 <ul>
-                { this.props.todos.map((todo) =>
-                    <TodoItem key={ todo.id } todo={ todo }
-                        onToggle={ this._handleToggle }
-                        onRemove={ this._handleRemove }/>
-                ) }
+                    { this.props.todos.map((todo) =>
+                        <TodoItem key={ todo.id } todo={ todo }
+                            onToggle={ this._handleToggle }
+                            onRemove={ this._handleRemove }/>
+                    ) }
                 </ul>
             </div>
         );
