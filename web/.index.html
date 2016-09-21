@@ -9,7 +9,7 @@
 
         <% if (env !== 'dev') { %>
         <!-- App stylesheet -->
-        <link rel="stylesheet" href="<%= parameters.publicPath %>app.<%= hash %>.css">
+        <link rel="stylesheet" href="<%= parameters.publicPath %>/app.<%= hash %>.css">
         <% } %>
     </head>
     <body>
@@ -17,7 +17,7 @@
         <div id="root"></div>
 
         <!-- Load app main file -->
-        <script src="<%= parameters.publicPath %>main<%= hash ? '.' + hash : '' %>.js"></script>
+        <script src="<%= parameters.publicPath %>/main<%= hash ? '.' + hash : '' %>.js"></script>
 
         <% if (env !== 'dev') { %>
         <script>
