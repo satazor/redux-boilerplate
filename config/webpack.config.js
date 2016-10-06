@@ -121,8 +121,8 @@ function buildConfig(options) {
             // See available options in https://github.com/chimurai/http-proxy-middleware
             proxy: {
                 '/api/*': {
-                    target: 'https://mysite.com/api/',
-                    pathRewrite: { '^/api': '/' },
+                    target: 'https://mysite.com/api',
+                    pathRewrite: { '^/api': '' },
                     logLevel: 'warn',
                 },
             },
