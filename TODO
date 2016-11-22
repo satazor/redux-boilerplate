@@ -6,3 +6,4 @@
 - source maps are not being correctly generated in dev for some files.. weird shit
 - review structure
 - add react-router-scroll
+- add https://www.npmjs.com/package/babel-plugin-transform-object-assign for IE11 support?
