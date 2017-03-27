@@ -1,8 +1,3 @@
 # redux-boilerplate
 
-STILL WORK IN PROGRESS
-
-
-## Requirements
-
-- NodeJS 4.x or greater
+**Deprecated**, check [react-with-moxy](https://github.com/moxystudio/react-with-moxy)
