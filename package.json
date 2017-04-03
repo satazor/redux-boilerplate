@@ -67,7 +67,7 @@
     "stylelint": "^7.0.2",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0",
-    "yargs": "^6.0.0"
+    "yargs": "^7.0.1"
   },
   "engines": {
     "node": ">=4.0.0"
